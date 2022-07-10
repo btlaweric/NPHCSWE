@@ -1,33 +1,26 @@
-**Table of Contents**
-
-[TOCM]
-
-[TOC]
-
-#How To
-##Build
+# Build
 `./mvnw clean install`
-##Run
+# Run
 `./mvnw spring-boot:run`
-##Test
+# Test
 `./mvnw test`
-#Default localhost path
+# Default localhost path
 `localhost:8080`
-#H2 Database
-##Console
+# H2 Database
+## Console
 `http://localhost:8080/h2-console`
-##Credentials
+## Credentials
 | User  | Password  | 
 | :------------ |:---------------:|
 | sa      | &nbsp; |
-#Added Features
+# Added Features
 + `GET /users` Added **sortBy** as query parameter.
 
 | Parameter  | Type | Value | Default Value
 | ------------- | ------------- |------------- |------------- |
 | sortBy  | String  | COLUMN_NAME  | id
 
-#Assumptions
+# Assumptions
 + ` GET /users`
  + If no query parameters is provided, use default parameters. 
  + Will only return an error if query parameters are invalid.
@@ -37,7 +30,7 @@
 + CSV file must be in UTF-8 Encoding.
 + No file size limit.
 
-#Design Decisions
+# Design Decisions
 + `POST /users/upload`  Due to following behaviours below, **200** will never be returned , only **201** and **400**.
  + Will not process csv file is empty, will return an error.
  + Does not check if old data is the same as new data, will just update.
