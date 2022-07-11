@@ -1,4 +1,4 @@
-package com.ericlaw.NPHCSWE;
+package com.ericlaw.NPHCSWE.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.*;

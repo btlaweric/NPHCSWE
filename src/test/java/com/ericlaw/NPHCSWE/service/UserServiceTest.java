@@ -1,4 +1,4 @@
-package com.ericlaw.NPHCSWE;
+package com.ericlaw.NPHCSWE.service;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -10,7 +10,6 @@ import com.ericlaw.NPHCSWE.model.customException.UserException;
 import com.ericlaw.NPHCSWE.model.customException.UserFilterException;
 import com.ericlaw.NPHCSWE.model.user.*;
 import com.ericlaw.NPHCSWE.repository.UserRepository;
-import com.ericlaw.NPHCSWE.service.*;
 import java.util.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

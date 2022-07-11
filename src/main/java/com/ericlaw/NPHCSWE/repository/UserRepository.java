@@ -20,11 +20,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Pageable pageable
   );
 
-  boolean existsById(String id);
+  public boolean existsById(String id);
 
-  boolean existsByLogin(String login);
+  public boolean existsByLogin(String login);
 
-  boolean existsByLoginAndIdNot(String login, String id);
+  public boolean existsByLoginAndIdNot(String login, String id);
 
-  User getUserById(String id);
+  public User getUserById(String id);
 }
