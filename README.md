@@ -1,3 +1,8 @@
+# Required
+## JDK
+`18.0.1.1`
+## Maven
+`3.8.5`
 # Build
 `./mvnw clean install`
 # Run
