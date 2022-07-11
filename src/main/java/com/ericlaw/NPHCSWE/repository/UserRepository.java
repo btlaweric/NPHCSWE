@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     "u.salary >= :#{#filter.minSalary} AND " +
     "u.salary <= :#{#filter.maxSalary} "
   )
-  List<User> findAndFilterUsers(
+  public List<User> findAndFilterUsers(
     @Param("filter") UserFilter filter,
     Pageable pageable
   );

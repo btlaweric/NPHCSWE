@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service;
 public class UserService implements IUserService {
 
   @Autowired
-  UserRepository userRepository;
+  private UserRepository userRepository;
 
   @Autowired
-  IGlobalService globalService;
+  private IGlobalService globalService;
 
   public void createOrUpdateUsers(List<User> users) {
     userRepository.saveAll(users);
