@@ -29,34 +29,31 @@ public class UserService implements IUserService {
     validateUserJson(user, "create");
 
     User userObj = new User(
-      user.getId(),
-      user.getLogin(),
-      user.getName(),
-      new BigDecimal(user.getSalary()),
-      globalService.getDateFromString(user.getStartDate())
-    );
+        user.getId(),
+        user.getLogin(),
+        user.getName(),
+        new BigDecimal(user.getSalary()),
+        globalService.getDateFromString(user.getStartDate()));
 
     userRepository.save(userObj);
   }
 
   public void updateUserById(String id, UserJSON user) {
-    if (!userRepository.existsById(id)) throw new UserException(
-      CustomException.USER_NOT_FOUND
-    );
+    if (!userRepository.existsById(id))
+      throw new UserException(
+          CustomException.USER_NOT_FOUND);
 
     validateUserJson(user, "update");
 
-    if (
-      !userRepository.existsByLoginAndIdNot(user.getLogin(), id)
-    ) throw new UserException(CustomException.USER_LOGIN_EXISTS);
+    if (userRepository.existsByLoginAndIdNot(user.getLogin(), id))
+      throw new UserException(CustomException.USER_LOGIN_EXISTS);
 
     User userObj = new User(
-      user.getId(),
-      user.getLogin(),
-      user.getName(),
-      new BigDecimal(user.getSalary()),
-      globalService.getDateFromString(user.getStartDate())
-    );
+        user.getId(),
+        user.getLogin(),
+        user.getName(),
+        new BigDecimal(user.getSalary()),
+        globalService.getDateFromString(user.getStartDate()));
 
     userRepository.save(userObj);
 
@@ -70,10 +67,9 @@ public class UserService implements IUserService {
     filter = validateAndSetUserFilter(filterParams);
 
     Pageable pageable = PageRequest.of(
-      filter.getOffset(),
-      filter.getLimit(),
-      Sort.by(sortBy(filter.getSortBy()))
-    );
+        filter.getOffset(),
+        filter.getLimit(),
+        Sort.by(sortBy(filter.getSortBy())));
 
     users = userRepository.findAndFilterUsers(filter, pageable);
     return users;
@@ -84,9 +80,9 @@ public class UserService implements IUserService {
 
     user.setId(id);
 
-    if (!userRepository.existsById(id)) throw new UserException(
-      CustomException.USER_NOT_FOUND
-    );
+    if (!userRepository.existsById(id))
+      throw new UserException(
+          CustomException.USER_NOT_FOUND);
 
     user = userRepository.getUserById(id);
     return user;
@@ -97,89 +93,77 @@ public class UserService implements IUserService {
 
     deleteUser.setId(id);
 
-    if (!userRepository.existsById(id)) throw new UserException(
-      CustomException.USER_NOT_FOUND
-    );
+    if (!userRepository.existsById(id))
+      throw new UserException(
+          CustomException.USER_NOT_FOUND);
 
     userRepository.delete(deleteUser);
   }
 
   private UserFilter validateAndSetUserFilter(
-    Map<String, String> filterParams
-  ) {
+      Map<String, String> filterParams) {
     UserFilter filter = new UserFilter();
 
     String minSalaryString = filterParams.getOrDefault(
-      "minSalary",
-      UserFilterDefaults.MIN_SALARY.toString()
-    );
+        "minSalary",
+        UserFilterDefaults.MIN_SALARY.toString());
     String maxSalaryString = filterParams.getOrDefault(
-      "maxSalary",
-      UserFilterDefaults.MAX_SALARY.toString()
-    );
+        "maxSalary",
+        UserFilterDefaults.MAX_SALARY.toString());
     String offsetString = filterParams.getOrDefault(
-      "offset",
-      String.valueOf(UserFilterDefaults.OFFSET)
-    );
+        "offset",
+        String.valueOf(UserFilterDefaults.OFFSET));
     String limitString = filterParams.getOrDefault(
-      "limit",
-      String.valueOf(UserFilterDefaults.LIMIT)
-    );
+        "limit",
+        String.valueOf(UserFilterDefaults.LIMIT));
     String sortByString = filterParams.getOrDefault(
-      "sortBy",
-      String.valueOf(UserFilterDefaults.SORTBY)
-    );
+        "sortBy",
+        String.valueOf(UserFilterDefaults.SORTBY));
 
-    if (!NumberUtils.isParsable(minSalaryString)) throw new UserFilterException(
-      CustomException.INVALID_MINSALARY
-    );
-    if (!NumberUtils.isParsable(maxSalaryString)) throw new UserFilterException(
-      CustomException.INVALID_MAXSALARY
-    );
+    if (!NumberUtils.isParsable(minSalaryString))
+      throw new UserFilterException(
+          CustomException.INVALID_MINSALARY);
+    if (!NumberUtils.isParsable(maxSalaryString))
+      throw new UserFilterException(
+          CustomException.INVALID_MAXSALARY);
 
-    if (!NumberUtils.isParsable(offsetString)) throw new UserFilterException(
-      CustomException.INVALID_OFFSET
-    );
+    if (!NumberUtils.isParsable(offsetString))
+      throw new UserFilterException(
+          CustomException.INVALID_OFFSET);
 
-    if (!NumberUtils.isParsable(limitString)) throw new UserFilterException(
-      CustomException.INVALID_LIMIT
-    );
+    if (!NumberUtils.isParsable(limitString))
+      throw new UserFilterException(
+          CustomException.INVALID_LIMIT);
 
     filter.setMinSalary(new BigDecimal(minSalaryString));
     filter.setMaxSalary(new BigDecimal(maxSalaryString));
     filter.setOffset(Integer.parseInt(offsetString));
     filter.setLimit(
-      Integer.parseInt(limitString) != 0
-        ? Integer.parseInt(limitString)
-        : Integer.MAX_VALUE
-    );
+        Integer.parseInt(limitString) != 0
+            ? Integer.parseInt(limitString)
+            : Integer.MAX_VALUE);
     filter.setSortBy(sortBy(sortByString));
 
-    if (
-      filter.getMinSalary().compareTo(filter.getMaxSalary()) > 0
-    ) throw new UserFilterException(
-      CustomException.MAXSALARY_SMALLER_THAN_MINSALARY
-    );
+    if (filter.getMinSalary().compareTo(filter.getMaxSalary()) > 0)
+      throw new UserFilterException(
+          CustomException.MAXSALARY_SMALLER_THAN_MINSALARY);
 
     return filter;
   }
 
   private void validateUserJson(UserJSON user, String mode) {
-    if (!NumberUtils.isParsable(user.getSalary())) throw new UserException(
-      CustomException.INVALID_SALARY
-    );
+    if (!NumberUtils.isParsable(user.getSalary()))
+      throw new UserException(
+          CustomException.INVALID_SALARY);
 
-    if (
-      !globalService.isValidDate(user.getStartDate())
-    ) throw new UserException(CustomException.INVALID_DATE);
+    if (!globalService.isValidDate(user.getStartDate()))
+      throw new UserException(CustomException.INVALID_DATE);
 
-    if (
-      mode == "create" && userRepository.existsById(user.getId())
-    ) throw new UserException(CustomException.USER_ID_EXISTS);
+    if (mode == "create" && userRepository.existsById(user.getId()))
+      throw new UserException(CustomException.USER_ID_EXISTS);
 
-    if (
-      mode == "create" && userRepository.existsByLogin(user.getLogin())
-    ) throw new UserException(CustomException.USER_LOGIN_EXISTS);
+    if (mode == "create" && userRepository.existsByLogin(user.getLogin()))
+      throw new UserException(CustomException.USER_LOGIN_EXISTS);
   }
 
   private String sortBy(String columnName) {
